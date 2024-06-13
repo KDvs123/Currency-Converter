@@ -29,7 +29,7 @@ function loadFlag(element){
     if(code == element.value){//if currency code of country list is equal to option value
       let imgTag=element.parentElement.querySelector("img");//selecting img tag of particular drop list
       imgTag.src = `https://flagsapi.com/${country_code[code]}/flat/64.png`;//parsing country code of a selected currency code in a img url
-      
+
 
 
     }
@@ -47,6 +47,17 @@ getButton.addEventListener("click", (e) => {
 });
 
 
+const exchangeIcon=document.querySelector(".drop-list .icon");
+
+
+exchangeIcon.addEventListener("click",()=>{
+  let tempCode = fromCurrency.value; //temparary currency code of FROM drop list
+  fromCurrency.value = toCurrency.value; //passing TO Currency code to FROM currency code
+  toCurrency.value = tempCode; //passing temporary currency code to TO currency code
+  loadFlag(fromCurrency); //calling loadFlag with passing select element (fromCurrency) of FROM
+  loadFlag(toCurrency); //calling loadFlag with passing select element (toCurrency) of TO
+  getExchangeRate();
+})
 
 
 function getExchangeRate() {
@@ -67,6 +78,8 @@ function getExchangeRate() {
     let exchangeRate=result.conversion_rates[toCurrency.value];
     let totalExchangeRate=(amountVal*exchangeRate).toFixed(2);
     exchangeRateTxt.innerText=`${amountVal} ${fromCurrency.value} = ${totalExchangeRate} ${toCurrency.value}`
+  }).catch(()=>{//if user is offline or any other error occured while fetching data then catch  function will run
+    exchangeRateTxt.innerText="Something went wrong"
   }));
 }
 
