@@ -1,4 +1,5 @@
-const dropList=document.querySelectorAll(".drop-list select");
+const dropList=document.querySelectorAll(".drop-list select"),
+getButton=document.querySelector("form button");
 
 for(let i=0;i<dropList.length;i++){
     for(currency_code in country_code){
@@ -15,3 +16,8 @@ for(let i=0;i<dropList.length;i++){
         dropList[i].insertAdjacentHTML("beforeend",optionTag);
     }
 }
+
+getButton.addEventListener("click", e=>{
+    e.preventDefault();//preventing form from submitting
+    getExchangeRate();
+})
